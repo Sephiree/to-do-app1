@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text,View, TextInput, Button} from 'react-native';
+import { StyleSheet, Text,View, TextInput, Button, FlatList} from 'react-native';
 import { useState } from 'react';
 
 
@@ -11,15 +11,10 @@ export default function App() {
   console.log("Tasks List:", tasksList) 
 
   const handleAddTask = ()=>{
-    // Verifica si ya existe una tarea con el mismo texto
-    const exists =tasksList.some(task => task.text === userInput);
-    if (exists) {
-      alert("Esta tarea ya existe.");
-      return;
-    }
-    setTasksList([...tasksList, {id: Math.random().toString(), text: userInput}]);
+    setTasksList([...tasksList,userInput])
+    setUserInput("");
   }
-
+  const renderTaskItem= ({item}) => ()
 
   return (
     <View style={styles.container}>
@@ -30,21 +25,17 @@ export default function App() {
       placeholder="Qué quieres hacer hoy?"
       />
       <Button title="Add" onPress={handleAddTask} />  
+      </View>  
+      <View style={styles.taskLisrtContainer}>
+        <FlatList
+        data={tasksList}
+        renderItem={renderTaskItem}
+        />
       </View>
-
-//Lista de tareas
-      <View style = {styles.tasksListContainer} />
-      {
-        
-        tasksList.map((task, index) => (
-          <Text key={task.id}>{task.text}</Text>
-        ))
-      }
       <StatusBar style="auto"/>
-    </View>
+    </View> 
   );
 }
-
 
 //Estilos de página
 const styles = StyleSheet.create({
@@ -54,7 +45,8 @@ const styles = StyleSheet.create({
     padding: 6,
     paddingTop: 64,
   },
-  taskInputContainer:{
+  
+  taskInputContainer: {
     paddingHorizontal: 16,
     flexDirection: 'row',
     gap: 8,
