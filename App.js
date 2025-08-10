@@ -10,30 +10,38 @@ export default function App() {
   console.log("User Input:", userInput)
   console.log("Tasks List:", tasksList) 
 
-  const handleAddTask = ()=>{
-    setTasksList([...tasksList,userInput])
+  const handleAddTask = () => {
+    setTasksList([...tasksList, userInput])
     setUserInput("");
   }
-  const renderTaskItem= ({item}) => ()
 
+  const renderTaskItem= ({ item }) => {
+    console.log ("item de flatlist:", item)
   return (
+    <View style={styles.task}>
+      <Text> {item} </Text>
+      </View>
+    )
+  }
+
+  return ( 
     <View style={styles.container}>
       <View style={styles.taskInputContainer}>
       <TextInput style={styles.taskInput}
-      //Funcion de una sola linea ↓
       onChangeText={(text)=>setUserInput(text)}
       placeholder="Qué quieres hacer hoy?"
+      value={userInput}
       />
       <Button title="Add" onPress={handleAddTask} />  
       </View>  
-      <View style={styles.taskLisrtContainer}>
+      <View style={styles.taskListContainer}>
         <FlatList
         data={tasksList}
         renderItem={renderTaskItem}
         />
       </View>
       <StatusBar style="auto"/>
-    </View> 
+    </View>
   );
 }
 
