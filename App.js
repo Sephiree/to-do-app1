@@ -11,15 +11,20 @@ export default function App() {
   console.log("Tasks List:", tasksList) 
 
   const handleAddTask = () => {
-    setTasksList([...tasksList, userInput])
+    setTasksList([...tasksList,{id:Math.random(), value: userInput }])
     setUserInput("");
   }
 
+  const handeDeleteItem = (id) => {
+    setTasksList(tasksList.filter(task=>task.id!==id))
+  }
+  
   const renderTaskItem= ({ item }) => {
     console.log ("item de flatlist:", item)
   return (
     <View style={styles.task}>
-      <Text> {item} </Text>
+      <Text> {item.value} </Text>
+      <Button color="red" title="x" onPress={()=>Button>handeDeleteItem(item.id)} />
       </View>
     )
   }
@@ -38,6 +43,7 @@ export default function App() {
         <FlatList
         data={tasksList}
         renderItem={renderTaskItem}
+        keyExtractor={item => item.id}
         />
       </View>
       <StatusBar style="auto"/>
@@ -50,25 +56,34 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 6,
+    padding: 22,
+    gap: 8,
     paddingTop: 64,
   },
   
   taskInputContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 6,
     flexDirection: 'row',
-    gap: 8,
+    gap: 24,
   }, 
   taskInput: {
     flex: 1,
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 8,
-    paddingHorizontal: 16,
-    fontSize: 16
+    paddingHorizontal: 6,
+    fontSize: 16,
   },
-  tasksListContainer: {
-    paddingHorizontal: 16,
-    gap: 8,
+  taskListContainer: {
+    paddingHorizontal: 6,
+    padding: 24,
   },
+  task: {
+    padding: 8,
+    marginBottom: 16,
+    backgroundColor:"#f1f1f1",
+    flexDirection: "row",
+    justifyContent: "space-between",
+
+  }
 });
