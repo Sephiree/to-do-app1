@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text,View, TextInput, Button, FlatList} from 'react-native';
 import { useState } from 'react';
+import ConfirmDeleteModal from './src/components/ConfirmDeleteModal';
 
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
   }
 
   return ( 
+    <> 
     <View style={styles.container}>
       <View style={styles.taskInputContainer}>
       <TextInput style={styles.taskInput}
@@ -48,6 +50,8 @@ export default function App() {
       </View>
       <StatusBar style="auto"/>
     </View>
+    <ConfirmDeleteModal/>
+    </>
   );
 }
 
