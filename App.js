@@ -7,17 +7,26 @@ import ConfirmDeleteModal from './src/components/ConfirmDeleteModal';
 export default function App() {
   const [userInput, setUserInput] = useState("");
   const [tasksList,setTasksList] = useState([]);
+  const [modalVisible, setModalVisible] = useState (false)
+  const [taskSelected, setTaskSelected] = useState ({})
 
   console.log("User Input:", userInput)
   console.log("Tasks List:", tasksList) 
+  console.log("Task selected:", taskSelected)
 
   const handleAddTask = () => {
     setTasksList([...tasksList,{id:Math.random(), value: userInput }])
     setUserInput("");
   }
 
-  const handeDeleteItem = (id) => {
-    setTasksList(tasksList.filter(task=>task.id!==id))
+  const deleteTask = () => {
+    setTasksList(tasksList.filter(task => task.id !== taskSelected.id ))
+    setModalVisible(false)
+  }
+  const handeDeleteItem = (item) => {
+    setTaskSelected(item)
+    setModalVisible(true)
+    //setTasksList(tasksList.filter(task=>task.id!==id))
   }
   
   const renderTaskItem= ({ item }) => {
@@ -25,7 +34,7 @@ export default function App() {
   return (
     <View style={styles.task}>
       <Text> {item.value} </Text>
-      <Button color="red" title="x" onPress={()=>Button>handeDeleteItem(item.id)} />
+      <Button color="red" title="x" onPress={()=>Button>handeDeleteItem(item)} />
       </View>
     )
   }
@@ -50,7 +59,11 @@ export default function App() {
       </View>
       <StatusBar style="auto"/>
     </View>
-    <ConfirmDeleteModal/>
+    <ConfirmDeleteModal
+    modalVisibleDown={modalVisible}
+    taskSelectedTitleDown={taskSelected.value}
+    setModalVisibleUp = {setModalVisible}
+    deleteTaskUp={deleteTask}/>
     </>
   );
 }
